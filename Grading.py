@@ -1,3 +1,17 @@
+import argparse
+# Create a parser to take input as extra arguments from the terminal
+parser = argparse.ArgumentParser(description="Input files names.")
+parser.add_argument('MyAnswersFile', help='the my answers file name and extension')
+parser.add_argument('AnswersFile', help='the right answers file name and extension')
+
+args = parser.parse_args()
+
+# Open the files to my answers and the right answers and fill the dictionaries
+def Read_Files (fileName, theDict):
+    with open(fileName) as myAns:
+        for line in myAns:
+            theDict[int(line.split('-')[0])] = line.strip().split('-')[1]
+
 # Define Dictionaries to hold my Answers
 myAnswers = dict()
 answers = dict()
@@ -7,13 +21,9 @@ wrongAnswers = dict()
 rightCount = 0
 wrongCount = 0
 
-# Open the files to my answers and the right answers and fill the dictionaries
-with open("MyAnswers.txt") as myAns:
-    for line in myAns:
-        myAnswers[int(line.split('-')[0])] = line.strip().split('-')[1]
-with open("Answers.txt") as myAns:
-    for line in myAns:
-        answers[int(line.split('-')[0])] = line.strip().split('-')[1]
+# Read the files with inputs from terminal
+Read_Files(args.MyAnswersFile, myAnswers)
+Read_Files(args.AnswersFile, answers)
 
 # Check for right and wrong answers
 for ans in myAnswers:
